@@ -12,6 +12,9 @@ molecule:
   extends: .ansible_molecule_docker
   tags:
     - docker-socket-runner
+  except:
+    changes:
+      - README.md
 
 publish:
   stage: publish

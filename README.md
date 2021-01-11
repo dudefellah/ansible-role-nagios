@@ -1,3 +1,5 @@
+[![pipeline status](https://gitlab.com/dudefellah/ansible-role-nagios/badges/main/pipeline.svg)](https://gitlab.com/dudefellah/ansible-role-nagios/-/commits/main)
+
 nagios
 =========
 
@@ -24,7 +26,7 @@ as your Python interpreter when using this role.
 Role Variables
 --------------
 
-All variables are described in [defaults/main.ym](defaults/main.yml).
+All variables are described in [defaults/main.yml](defaults/main.yml).
 
 Dependencies
 ------------
