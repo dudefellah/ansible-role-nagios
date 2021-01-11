@@ -96,5 +96,5 @@
 - name: Set the service state
   service:
     name: "{{ nagios_service_name }}"
-    state: "{{ nagios_service_state }}"
+    state: "{{ nagios_service_state | default(omit) }}"
     enabled: "{{ nagios_service_enabled }}"

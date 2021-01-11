@@ -12,3 +12,5 @@
     name: "{{ nagios_service_name }}"
     state: "{{ nagios_service_restart_state }}"
   listen: restart nagios
+  when:
+    - "nagios_service_restart_state is not none"
