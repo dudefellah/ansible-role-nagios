@@ -1,0 +1,77 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: docker
+lint: |
+  set -e
+  yamllint .
+  ansible-lint .
+platforms:
+  - name: nagios-molecule-centos-8-instance
+    image: "centos:centos8"
+    tmpfs:
+     - /run
+     - /tmp
+    volumes:
+     - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    command: /usr/sbin/init
+provisioner:
+  name: ansible
+  inventory:
+    host_vars:
+      nagios-molecule-centos-8-instance:
+        nagios_source_tempfile_path: /root
+        nagios_source_install_service: false
+        nagios_configs:
+          - files/test
+          - src: files/test1
+          - src: files/test2
+            dest: test2
+          - src: files/test3
+            dest: /usr/local/etc/nagios/test3
+          - src: files/test4
+            dest: /usr/local/etc/nagios/test4
+            owner: nagios
+            group: nagios
+            dirmode: "0700"
+            mode: "0666"
+          - src: files/test5
+            dest: /usr/local/etc/nagios2/test5
+            owner: nagios
+            group: nagios
+            dirmode: "0700"
+            mode: "0666"
+          - src: files/test_nagios.cfg
+            dest: test_nagios.cfg
+          - config:
+              check_for_updates: "1"
+            dest: "nagios-customconfig/custom.cfg"
+          - config:
+              cfg_dir:
+                - /usr/local/etc/nagios2
+                - /usr/local/etc/nagios-customconfig
+            dest: nagios-custom-include.cfg
+          - dest: objects/nagios-custom-contacts.cfg
+            config:
+              contact:
+                - contact_name: somebody
+                  use: generic-contact
+                  alias: Some Person
+                  email: someguy@localhost
+                - contact_name: somebodyelse
+                  use: generic-contact
+                  alias: Some Other Person
+                  email: someoneelse@localhost
+          - dest: objects/nagios-custom-extra-contacts.cfg
+            config:
+              contact:
+                contact_name: lastperson
+                use: generic-contact
+                alias: Last Person I Swear
+                email: lastone@localhost
+          - files/nagios.cfg
+verifier:
+  name: testinfra
+  options:
+    verbose: true

@@ -1,0 +1,26 @@
+---
+galaxy_info:
+  role_name: nagios
+  author: Dan
+  description: Install and configure nagios
+
+  issue_tracker_url: https://github.com/dudefellah/ansible-role-nagios/issues
+
+  license: GPL-2.0-or-later
+
+  min_ansible_version: 2.9
+
+  platforms:
+    - name: EL
+      versions:
+        - 7
+        - 8
+    - name: Debian
+      versions:
+        - stretch
+        - buster
+
+  galaxy_tags:
+    - nagios
+
+dependencies: []

@@ -1,0 +1,32 @@
+---
+- name: Converge
+  hosts: all
+  tasks:
+    - name: Set the result
+      set_fact:
+        run_failed: false
+
+    - block:
+        - name: First use the role just to install nagios and start it
+          include_role:
+            name: "ansible-role-nagios"
+          vars:
+            nagios_configs: []
+            nagios_service_state: started
+
+    - block:
+        - name: >-
+            Now install our bad configuration so that we can latest test that
+            nagios stays running despite the bad configuration
+          include_role:
+            name: "ansible-role-nagios"
+      rescue:
+        - name: Record the failure
+          set_fact:
+            run_failed: true
+
+    - name: Fail if the run didn't fail
+      fail:
+        msg: "The role should've failed but didn't!"
+      when:
+        - "not run_failed"

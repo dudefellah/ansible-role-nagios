@@ -1,0 +1,31 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: docker
+lint: |
+  set -e
+  yamllint .
+  ansible-lint .
+platforms:
+  - name: nagios-molecule-centos-8-instance
+    image: "centos:centos8"
+    tmpfs:
+     - /run
+     - /tmp
+    volumes:
+     - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    command: /usr/sbin/init
+provisioner:
+  name: ansible
+  inventory:
+    host_vars:
+      nagios-molecule-centos-8-instance:
+        nagios_source_tempfile_path: /root
+        nagios_source_install_service: true
+        nagios_configs:
+          - files/nagios_bad.cfg
+verifier:
+  name: testinfra
+  options:
+    verbose: true

@@ -1,0 +1,53 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: docker
+lint: |
+  set -e
+  yamllint .
+  ansible-lint .
+platforms:
+  - name: nagios-molecule-centos-7-instance
+    image: "centos:centos7"
+    tmpfs:
+      - /run
+      - /tmp
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    command: /usr/sbin/init
+  - name: nagios-molecule-centos-8-instance
+    image: "centos:centos8"
+    tmpfs:
+     - /run
+     - /tmp
+    volumes:
+     - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    command: /usr/sbin/init
+  - name: nagios-molecule-debian-buster-instance
+    image: python:3-buster
+  - name: nagios-molecule-debian-stretch-instance
+    image: python:3-stretch
+provisioner:
+  name: ansible
+  playbooks:
+    prepare: prepare.yml
+  inventory:
+    host_vars:
+      nagios-molecule-centos-7-instance:
+        nagios_source_tempfile_path: /root
+        nagios_source_install_service: false
+        nagios_configs:
+          - files/test
+          - files/nagios.cfg
+      nagios-molecule-centos-8-instance:
+        nagios_source_tempfile_path: /root
+        nagios_source_install_service: true
+      nagios-molecule-debian-stretch-instance:
+        nagios_source_install_service: false
+      nagios-molecule-debian-buster-instance:
+        nagios_source_install_service: true
+verifier:
+  name: testinfra
+  options:
+    verbose: true
