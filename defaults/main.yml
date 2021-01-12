@@ -47,6 +47,9 @@ nagios_prefix_dir: /usr/local
 # This is the root location for nagios configuration files.
 nagios_config_dir: /usr/local/etc/nagios
 
+# The location of the nagios binary
+nagios_bin_path: /usr/local/bin/nagios
+
 # Nagios service details
 nagios_service_name: nagios
 nagios_service_state: started

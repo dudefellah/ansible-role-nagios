@@ -1,12 +1,12 @@
 ---
 - name: Look for nagios binary
   stat:
-    path: "{{ nagios_prefix_dir }}/bin/nagios"
+    path: "{{ nagios_bin_path }}"
   register: __nagios_bin
 
 - name: Get nagios version # noqa 305
   shell: >-
-    {{ nagios_prefix_dir }}/bin/nagios --version
+    {{ nagios_bin_path }} --version
   register: __nagios_version
   changed_when: false
   when:

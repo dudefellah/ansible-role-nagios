@@ -5,11 +5,11 @@ After=network.target local-fs.target
 
 [Service]
 Type=forking
-ExecStartPre={{ nagios_prefix_dir }}/bin/nagios -v "{{ __nagios_primary_config_file }}"
-ExecStart={{ nagios_prefix_dir }}/bin/nagios -d "{{ __nagios_primary_config_file }}"
+ExecStartPre={{ nagios_bin_path }} -v "{{ __nagios_primary_config_file }}"
+ExecStart={{ nagios_bin_path }} -d "{{ __nagios_primary_config_file }}"
 ExecStop=/bin/kill -s TERM ${MAINPID}
 ExecStopPost=/bin/rm -f {{ nagios_prefix_dir }}/var/rw/nagios.cmd
-ExecReload={{ nagios_prefix_dir }}/bin/nagios -v "{{ __nagios_primary_config_file }}"
+ExecReload={{ nagios_bin_path }} -v "{{ __nagios_primary_config_file }}"
 ExecReload=/bin/kill -s HUP ${MAINPID}
 
 [Install]

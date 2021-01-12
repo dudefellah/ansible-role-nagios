@@ -12,8 +12,9 @@
 - name: Stat local file
   stat:
     path: "{{ __src_file }}"
-  delegate_to: localhost
   register: src_st
+  delegate_to: localhost
+  become: false
 
 - name: Fail if the src file can't be found
   fail:
