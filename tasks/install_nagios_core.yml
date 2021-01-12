@@ -113,6 +113,7 @@
         path: "{{ tmpdir.path }}"
         state: absent
   when:
+    - "nagios_source_tarball is not none"
     - >-
       (not __nagios_bin.stat.exists) or
       ((__nagios_version.stdout | regex_search('Nagios\s+Core\s+' + nagios_source_version) | length) == 0)
@@ -146,3 +147,5 @@
     - name: >-
         Flush handlers early so that we can control the service state later on
       meta: flush_handlers
+  when:
+    - "nagios_source_tarball is not none"

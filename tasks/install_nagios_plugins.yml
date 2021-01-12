@@ -103,6 +103,7 @@
         path: "{{ tmpdir.path }}"
         state: absent
   when:
+    - "nagios_plugin_source_tarball is not none"
     - >-
       (not _version_cache_st.stat.exists) or
       ((_nagios_plugin_version_slurp.content | b64decode) != nagios_plugin_source_version)
