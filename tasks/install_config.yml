@@ -113,3 +113,8 @@
   when:
     - "nagios_config is mapping"
     - "'config' in nagios_config"
+
+- name: Activate plugin in nagios config file
+  lineinfile:
+    path: '{{ __nagios_primary_config_file }}'
+    line: 'cfg_file={{ __dest_path }}'
