@@ -107,6 +107,40 @@
       args:
         chdir: "{{ tmpdir.path }}/nagios"
 
+    # install webapp
+    - block:
+        - name: Test if webconf already present
+          stat:
+            path: /etc/apache2/sites-enabled/nagios.conf
+          register: stat_result
+
+        - name: Make install webconf
+          command: "make install-webconf"
+          args:
+            chdir: "{{ tmpdir.path }}/nagios"
+          when: not stat_result.stat.exists
+
+        - name: Enable the Apache2 module rewrite
+          community.general.apache2_module:
+            state: present
+            name: '{{ item }}'
+          loop:
+            - rewrite
+            - cgi
+          notify: systemctl apache2 reload
+
+        - name: Add a user to a password file and ensure permissions are set
+          community.general.htpasswd:
+            path: /usr/local/etc/nagios/htpasswd.users
+            name: '{{ nagios_web_user }}'
+            password: '{{ nagios_web_passwd }}'
+            owner: root
+            group: www-data
+            mode: 0640
+          when: nagios_web_passwd is not none
+
+      when: nagios_install_webapp
+
   always:
     - name: Cleanup install files
       file:
