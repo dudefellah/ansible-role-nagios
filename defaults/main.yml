@@ -118,6 +118,13 @@ nagios_default_config_file_mode: "0640"
 # be used.
 nagios_primary_config_file: null
 
+# Install nagios web application
+nagios_install_webapp: false
+
+# User and password for htpasswd file for web app
+nagios_web_user: "nagiosadmin"
+nagios_web_passwd: null
+
 # This is a list of nagios configurations. Each entry in this list can have
 # the following values:
 #   src (optional):    The source file or directory of nagios config file(s)
