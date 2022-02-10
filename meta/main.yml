@@ -2,7 +2,7 @@
 galaxy_info:
   role_name: nagios
   author: Dan
-  description: Install and configure nagios
+  description: Install and configure nagios (fork of dudefellah's script, adding web apps and auto module configuration)
 
   issue_tracker_url: https://github.com/dudefellah/ansible-role-nagios/issues
 
