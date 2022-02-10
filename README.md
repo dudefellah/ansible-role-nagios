@@ -38,7 +38,7 @@ Example Playbook
 
     - hosts: nagios_servers
       roles:
-         - include_role: dudefellah.nagios
+         - include_role: perdu.nagios
            vars:
              nagios_configs:
                - dest: objects/contacts-test.cfg
@@ -54,7 +54,8 @@ License
 
 GPLv2+
 
-Author Information
+Authors Information
 ------------------
 
-Dan - github.com/dudefellah
+- Dan - github.com/dudefellah
+- Célestin Matte - github.com/Perdu
